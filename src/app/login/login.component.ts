@@ -1,45 +1,69 @@
-import { Component } from '@angular/core';
+// login.component.ts
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService} from "../authentication.service";
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-
+import { LoginService } from '../servicelogin/login.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
+
+
+  users: any[] = []; // Assuming your user data structure
+  loginError: boolean = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService, // Adjust service name
+    private router: Router
+  ) { }
+
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
-  })
+  });
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
-
-  get email() {
-    return this.loginForm.controls['email'];
+  get emailControl() {
+    return this.loginForm.get('email');
   }
-  get password() { return this.loginForm.controls['password']; }
 
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
 
-  //from here
-  login(credentials: any): void {
-    this.authService.login(credentials).subscribe(
-      response => {
-        console.log('Login successful:', response);
-        // Handle success (e.g., store user data and redirect to home page)
-        this.router.navigate(['/home']);
-      },
-      error => {
-        console.error('Login failed:', error);
-        // Handle error (e.g., display an error message)
-        if (error instanceof HttpErrorResponse) {
-          console.error('Status:', error.status);
-          console.error('Body:', error.error);
-        }
+  ngOnInit(): void {
+    this.loginService.getlogin().subscribe(
+      (data: any) => {
+        this.users = data;
       }
     );
+  }
+
+  onLoginClick() {
+    if (this.loginForm.valid) {
+      const enteredEmail = this.emailControl?.value;
+      const enteredPassword = this.passwordControl?.value;
+
+      const user = this.users.find(u => u.email === enteredEmail && u.password === enteredPassword);
+
+      if (user) {
+        this.handleSuccessfulLogin();
+      } else {
+        this.handleFailedLogin();
+      }
+    }
+  }
+
+  private handleSuccessfulLogin() {
+    this.router.navigate(['/Dashboard/Home']);
+  }
+
+  private handleFailedLogin() {
+    this.loginError = true;
   }
 }

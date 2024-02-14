@@ -14,29 +14,31 @@
 /*}*/
 
 
-.card {
-  width: 487px;
-  height: auto; /* Set height to auto to accommodate content */
-  color: #333;
-  top: 50%;
-  left: 50%;
+.card{
+  width:487px;
+  height:582px;
+  color:#fff;
+  top:47%;
+  left:50%;
   position: absolute;
   box-sizing: border-box;
   padding: 31px 40px;
-  border: 1px solid black;
-  transform: translate(-50%, -50%);
-  background: #f9f9f9;
+  border:1px solid black;
+  transform: translate(-50%,-50%);
+  background: black;
+  color: #fff;
 }
 
-/* Adjust form fields and error messages */
-.mb-2 {
-  margin-bottom: 20px; /* Add some bottom margin to create space between fields */
-}
 
-.form-control {
-  width: 100%; /* Ensure form controls take up the full width */
-}
+/*!* Adjust form fields and error messages *!*/
+/*.mb-2 {*/
+/*  margin-bottom: 20px; !* Add some bottom margin to create space between fields *!*/
+/*}*/
 
-.text-danger {
-  font-size: 14px; /* Adjust font size of error messages */
-}
+/*.form-control {*/
+/*  width: 100%; !* Ensure form controls take up the full width *!*/
+/*}*/
+
+/*.text-danger {*/
+/*  font-size: 14px; !* Adjust font size of error messages *!*/
+/*}*/

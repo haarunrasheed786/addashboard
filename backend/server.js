@@ -167,6 +167,23 @@ app.get('/api/books', async (req, res) => {
   }
 });
 
+const loginSchema = new mongoose.Schema({
+  email: String,
+  password: String
+});
+
+const LoginModel = mongoose.model('login', loginSchema, 'login');
+
+app.get('/api/login', async (req, res) => {
+  try {
+    const data = await LoginModel.find();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 const port = 5000;
 app.listen(port, () => {
   console.log("server is started successfully");
